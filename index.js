@@ -1,15 +1,19 @@
+'use strict'
+
 const Web3 = require('web3')
+let web3 = new Web3('wss://ropsten.infura.io/ws/v3/1bb948e667184704914d4f0a4439c6e8')
 
-const BuildTransactionChecker = require('./transactionChecker')
-const BuildTransactionChecker2 = require('./transactionChecker2')
-const CreateClient = require('./ethClient')
+const client = require('./util/client')(web3);
 
-const { web3http, web3 } = CreateClient(Web3)
-const { checkLastBlock, checkBlocks } = BuildTransactionChecker(web3)
-const watchTransactions = BuildTransactionChecker2({ web3, web3http })
+let BLOCK_NUM_1 = 9596121
 
-setInterval(() => {
-    checkLastBlock()
-}, 2000)
+async function main(){
+    console.log('hi!')
 
-watchTransactions()
+    let result = await client.getRecords(BLOCK_NUM_1)
+    console.log(result)
+
+    process.exit(0)
+}
+
+main()
